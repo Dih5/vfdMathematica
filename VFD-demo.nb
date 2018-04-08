@@ -1,8 +1,12 @@
 Notebook[{
+
+Cell[CellGroupData[{
+Cell["VFD demo", "Section"],
+
 Cell["Load the package.", "Text"],
 
 Cell[BoxData[
- RowBox[{"<<", "VFD`"}]], "Input"],
+ RowBox[{"Needs", "[", "\"\<VFD`\>\"", "]"}]], "Input"],
 
 Cell["Produce a simple plot.", "Text"],
 
@@ -368,50 +372,17 @@ Cell[BoxData[
          RowBox[{#2, ",", "After"}], "]"}]}], "]"}]& )]], "Output"]
 }, Open  ]],
 
-Cell["Produce VFDs with the same syntax and from the plot itself.", "Text"],
+Cell["Produce a VFD with the plot itself.", "Text"],
 
 Cell[BoxData[
  RowBox[{
   RowBox[{"vfd", "=", 
-   RowBox[{"CreateVFD", "[", 
-    RowBox[{
-     RowBox[{"Table", "[", 
-      RowBox[{
-       RowBox[{"{", 
-        RowBox[{"x", ",", 
-         RowBox[{"x", "^", "k"}]}], "}"}], ",", 
-       RowBox[{"{", 
-        RowBox[{"k", ",", "1", ",", "3"}], "}"}], ",", 
-       RowBox[{"{", 
-        RowBox[{"x", ",", "1", ",", "3", ",", "0.25"}], "}"}]}], "]"}], ",", 
-     RowBox[{"PlotLegends", "\[Rule]", 
-      RowBox[{"{", 
-       RowBox[{
-       "\"\<Linear\>\"", ",", "\"\<Cuadratic\>\"", ",", "\"\<Cubic\>\""}], 
-       "}"}]}], ",", 
-     RowBox[{"AxesLabel", "\[Rule]", 
-      RowBox[{"{", 
-       RowBox[{"\"\<x\>\"", ",", "\"\<f(x)\>\""}], "}"}]}]}], "]"}]}], 
-  ";"}]], "Input"],
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"vfd2", "=", 
    RowBox[{"PlotToVFD", "[", "plot", "]"}]}], ";"}]], "Input"],
 
-Cell[CellGroupData[{
+Cell["Open the file with the vfd cli.", "Text"],
 
 Cell[BoxData[
- RowBox[{"vfd", "===", "vfd2"}]], "Input"],
-
-Cell[BoxData["True"], "Output"]
-}, Open  ]],
-
-Cell["Open the files with vfd.", "Text"],
-
-Cell[BoxData[
- RowBox[{"PreviewVFD", "[", 
-  RowBox[{"\"\<test.pdf\>\"", ",", "vfd2"}], "]"}]], "Input"],
+ RowBox[{"PreviewVFD", "[", "vfd", "]"}]], "Input"],
 
 Cell["Directly export with matplotlib.", "Text"],
 
@@ -419,13 +390,14 @@ Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{"ExportVFD", "[", 
-  RowBox[{"\"\<test.pdf\>\"", ",", "vfd"}], "]"}]], "Input"],
+  RowBox[{"\"\<demo.pdf\>\"", ",", "vfd"}], "]"}]], "Input"],
 
-Cell[BoxData["\<\"test.pdf\"\>"], "Output"]
+Cell[BoxData["\<\"demo.pdf\"\>"], "Output"]
+}, Open  ]]
 }, Open  ]]
 },
-WindowSize->{808, 852},
-WindowMargins->{{Automatic, 146}, {42, Automatic}},
+WindowSize->{1281, 785},
+WindowMargins->{{264, Automatic}, {47, Automatic}},
 PrivateNotebookOptions->{"FileOutlineCache"->False},
 TrackCellChangeTimes->False,
 FrontEndVersion->"11.0 for Linux x86 (64-bit) (September 21, 2016)",

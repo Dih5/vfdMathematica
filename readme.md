@@ -23,7 +23,7 @@ Interface to use the [VFD tools](https://github.com/dih5/vfd) with Mathematica.
 * As a corollary, you can use matplotlib from Mathematica.
 
 
-
+![alt tag](https://raw.github.com/dih5/vfdMathematica/master/demo.png)
 
 ## Installation
 
