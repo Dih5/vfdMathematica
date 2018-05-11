@@ -60,8 +60,8 @@ CreateVFD[data_, opts : OptionsPattern[]] :=
   axesLabel = OptionValue[AxesLabel];
   If[axesLabel =!= None, If[ListQ[axesLabel],
     (*If a list*)
-    AppendTo[f, "xlabel" -> CleanString[axesLabel[[1]]]];
-    If[Length[axesLabel] > 1, AppendTo[f, "ylabel" -> CleanString[axesLabel[[2]]]]],
+    If[axesLabel[[1]] =!= None , AppendTo[f, "xlabel" -> CleanString[axesLabel[[1]]]]];
+    If[Length[axesLabel] > 1, If[axesLabel[[2]] =!= None, AppendTo[f, "ylabel" -> CleanString[axesLabel[[2]]]]]],
     (*If just one label*)
     AppendTo[f, "ylabel" -> CleanString[axesLabel]]]
    (*TODO: FrameLabel too here*)];
