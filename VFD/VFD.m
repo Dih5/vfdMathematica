@@ -50,7 +50,7 @@ CleanString[str_] :=
 Options[CreateVFD] = Join[Map[#[[1]] -> None &, Options[ListPlot]], {RawVFD->False}];
   
 CreateVFD[data_, opts : OptionsPattern[]] := 
- Module[{f, data2, series, axesLabel, plotLegends, joined},
+ Module[{f, data2, series, axesLabel, plotLegends, joined, scalingFunctions},
   f = {};
   data2 = N[data];
   If[DataQ[data2], data2 = {data2}];
@@ -72,6 +72,12 @@ CreateVFD[data_, opts : OptionsPattern[]] :=
   If[joined =!= None,joined=CycleOption[Length[series],joined];
   	series = MapThread[Append[#1, "joined" -> #2] &, {series, joined}]
   ];
+  scalingFunctions=OptionValue[ScalingFunctions];
+  If[scalingFunctions =!= None && !ListQ[scalingFunctions], scalingFunctions={None,scalingFunctions}];
+  If[scalingFunctions =!= None, 
+   If[scalingFunctions[[1]]==="log",AppendTo[f, "xlog" -> True]];
+   If[scalingFunctions[[2]]==="log",AppendTo[f, "ylog" -> True]]
+  ];
   AppendTo[f, "type" -> "plot"];
   AppendTo[f, "series" -> series];
   If[OptionValue[RawVFD]===True,Association[f],ExportString[Association[f], "JSON"]]
@@ -80,9 +86,13 @@ CreateVFD[data_, opts : OptionsPattern[]] :=
   
 Options[PlotToVFD]={RawVFD->False, PlotLegends->None};
 
-PlotToVFD[plot_Graphics, opts:OptionsPattern[]] := Module[{data, options},
+PlotToVFD[plot_Graphics, opts:OptionsPattern[]] := Module[{data, options,logx=False,logy=False},
 	data = {Cases[First@plot, Line[d_] | Point[d_] :> d, -4]};
 	options = Join[{plot[[2]]},{RawVFD->OptionValue[RawVFD], PlotLegends->OptionValue[PlotLegends]}];
+	(*Detect log scale*)
+	If[(Ticks /. plot[[2]])[[1]]===Charting`ScaledTicks[{Log, Exp}],data=Map[{Exp[#[[1]]],#[[2]]}&, data, {-2}];logx=True];
+	If[(Ticks /. plot[[2]])[[2]]===Charting`ScaledTicks[{Log, Exp}],data=Map[{#[[1]],Exp[#[[2]]]}&, data, {-2}];logy=True];
+	If[logx||logy,AppendTo[options, ScalingFunctions -> {If[logx,"log",None],If[logy,"log",None]}]];
     CreateVFD @@ Join[data, options]
 ]
 
